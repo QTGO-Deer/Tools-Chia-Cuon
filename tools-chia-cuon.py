@@ -67,7 +67,7 @@ def group_by_column_8_perfect(df_input, column_name='Chieu_Dai', target=4000, ma
 # --- GIAO DIỆN STREAMLIT ---
 
 # 1. Tạo giao diện tiêu đề
-st.title("✂️ Công cụ chia cuộn tự động")
+st.title("✨ Công cụ chia cuộn tự động")
 
 # 2. Tạo các ô nhập thông số ở thanh bên trái (Sidebar)
 st.sidebar.header("⚙️ Cấu hình thông số")
@@ -87,7 +87,7 @@ if uploaded_file is not None:
         st.dataframe(df_input.head(10))
         
         # Bước B: Nút bấm bắt đầu tính toán (Đã sửa lại thụt lề chuẩn)
-        if st.button("🚀 Bắt đầu tối ưu hóa"):
+        if st.button("▶️ Bắt đầu tối ưu hóa"):
             with st.spinner("Đang tính toán tổ hợp tối ưu..."):
                 # Gọi hàm thuật toán truyền đúng DataFrame và các tham số vào
                 df_result = group_by_column_8_perfect(df_input, column_name, target, max_limit)
