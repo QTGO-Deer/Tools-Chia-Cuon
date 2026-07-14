@@ -101,17 +101,14 @@ uploaded_file = st.file_uploader("Kéo và thả file Excel (.xlsx) vào đây",
 
 if uploaded_file is not None:
     try:
-        # Đọc dữ liệu từ file người dùng upload
-        df_input = pd.read_excel(uploaded_file)
-        st.success("Đã tải file thành công! Bản xem trước 10 dòng đầu:")
-        st.dataframe(df_input.head(10))
+        # Thay vì đọc df_input ở đây, truyền trực tiếp uploaded_file vào hàm tối ưu
+        # Lưu ý: Đảm bảo hàm group_by_column_8_perfect trả về một DataFrame (df) ở cuối hàm bằng lệnh `return df`
         
-        # Nút bấm kích hoạt tính toán
-        if st.button("🚀 Bắt đầu tối ưu hóa"):
-            with st.spinner("Đang tính toán..."):
-                # Gọi hàm thuật toán của bạn (hàm group_by_column_8_perfect đã viết ở trên)
-                df_result = group_by_column_8_perfect(df_input, column_name, target, max_limit)
-                
+        # Gọi thẳng hàm với file được upload
+        df_result = group_by_column_8_perfect(uploaded_file, column_name, target, max_limit)
+        
+        # Tạo file Excel lưu vào bộ nhớ tạm để tải về
+        output = io.BytesIO()
                 # Tạo file Excel lưu vào bộ nhớ tạm để tải về
                 output = io.BytesIO()
                 with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
