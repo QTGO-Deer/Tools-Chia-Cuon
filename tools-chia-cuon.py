@@ -84,10 +84,46 @@ def group_by_column_8_perfect(input_file, output_file, column_name='Chieu_Dai', 
 
 # --- KÍCH HOẠT CHẠY CHƯƠNG TRÌNH ---
 # Từ giờ bạn chỉ cần thay đổi số 4000 và 4010 ở đây để điều chỉnh cấu hình toàn bộ bài toán
-group_by_column_8_perfect(
-    input_file='input.xlsx',
-    output_file='output_new.xlsx',
-    column_name='Chieu_Dai',
-    target=4000,
-    max_limit=4010
-)
+import streamlit as st
+import io
+
+# 1. Tạo giao diện tiêu đề
+st.title("✂️ Công cụ tối ưu chia cuộn tự động")
+
+# 2. Tạo các ô nhập thông số ở thanh bên trái (Sidebar)
+st.sidebar.header("⚙️ Cấu hình thông số")
+column_name = st.sidebar.text_input("Tên cột chứa Chiều Dài", value="Chieu_Dai")
+target = st.sidebar.number_input("Mục tiêu tối thiểu (Target)", value=4000, step=10)
+max_limit = st.sidebar.number_input("Giới hạn tối đa (Max Limit)", value=4010, step=10)
+
+# 3. Tạo khung kéo thả file Excel
+uploaded_file = st.file_uploader("Kéo và thả file Excel (.xlsx) vào đây", type=["xlsx"])
+
+if uploaded_file is not None:
+    try:
+        # Đọc dữ liệu từ file người dùng upload
+        df_input = pd.read_excel(uploaded_file)
+        st.success("Đã tải file thành công! Bản xem trước 5 dòng đầu:")
+        st.dataframe(df_input.head(5))
+        
+        # Nút bấm kích hoạt tính toán
+        if st.button("🚀 Bắt đầu tối ưu hóa"):
+            with st.spinner("Đang tính toán..."):
+                # Gọi hàm thuật toán của bạn (hàm group_by_column_8_perfect đã viết ở trên)
+                df_result = group_by_column_8_perfect(df_input, column_name, target, max_limit)
+                
+                # Tạo file Excel lưu vào bộ nhớ tạm để tải về
+                output = io.BytesIO()
+                with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                    df_result.to_excel(writer, index=False)
+                processed_data = output.getvalue()
+                
+                st.success("🎉 Đã tối ưu xong!")
+                st.download_button(
+                    label="📥 Tải file kết quả (.xlsx)",
+                    data=processed_data,
+                    file_name="ket_qua_chia_cuon.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+    except Exception as e:
+        st.error(f"Lỗi xử lý dữ liệu: {e}")
