@@ -106,9 +106,6 @@ if uploaded_file is not None:
         
         # Gọi thẳng hàm với file được upload
         df_result = group_by_column_8_perfect(uploaded_file, column_name, target, max_limit)
-        
-        # Tạo file Excel lưu vào bộ nhớ tạm để tải về
-        output = io.BytesIO()
                 # Tạo file Excel lưu vào bộ nhớ tạm để tải về
                 output = io.BytesIO()
                 with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
