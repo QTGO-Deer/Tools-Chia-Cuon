@@ -88,11 +88,11 @@ import streamlit as st
 import io
 
 # 1. Tạo giao diện tiêu đề
-st.title("✂️ Công cụ tối ưu chia cuộn tự động")
+st.title("✂️ Công cụ chia cuộn tự động")
 
 # 2. Tạo các ô nhập thông số ở thanh bên trái (Sidebar)
 st.sidebar.header("⚙️ Cấu hình thông số")
-column_name = st.sidebar.text_input("Tên cột chứa Chiều Dài", value="Chieu_Dai")
+column_name = st.sidebar.text_input("Tên cột chiều dài cuộn", value="Chieu_Dai")
 target = st.sidebar.number_input("Mục tiêu tối thiểu (Target)", value=4000, step=10)
 max_limit = st.sidebar.number_input("Giới hạn tối đa (Max Limit)", value=4010, step=10)
 
@@ -103,8 +103,8 @@ if uploaded_file is not None:
     try:
         # Đọc dữ liệu từ file người dùng upload
         df_input = pd.read_excel(uploaded_file)
-        st.success("Đã tải file thành công! Bản xem trước 5 dòng đầu:")
-        st.dataframe(df_input.head(5))
+        st.success("Đã tải file thành công! Bản xem trước 10 dòng đầu:")
+        st.dataframe(df_input.head(10))
         
         # Nút bấm kích hoạt tính toán
         if st.button("🚀 Bắt đầu tối ưu hóa"):
