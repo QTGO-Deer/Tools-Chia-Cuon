@@ -98,7 +98,7 @@ if uploaded_file is not None:
                     df_result.to_excel(writer, index=False)
                 processed_data = output.getvalue()
                 
-                st.success("🎉 Đã tối ưu xong!")
+                st.success("✅ Đã tối ưu xong!")
                 st.download_button(
                     label="📥 Tải file kết quả (.xlsx)",
                     data=processed_data,
